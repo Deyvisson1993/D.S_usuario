@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Usuario</title>
+</h:head>
+<h:body>
+	<p:growl id="Mensagem" />
+	<h:form id="formLista">
+		<p:panel header="Listar - Usuario">
+			<p:dataTable id="tabela" value="#{usuarioBean.usuarios}"
+				emptyMessage="Nenhum resultado encontrado" rows="8" paginator="true"
+				var="usuario">
+
+				<f:facet name="header">
+					<p:commandButton value="Novo" actionListener="#{usuarioBean.novo}"
+						oncomplete="PF('dlgUsuario').show();"
+						update=":Mensagem :formCadastro:painel">
+
+					</p:commandButton>
+				</f:facet>
+
+				<p:column headerText="Nome" filterBy="#{usuario.nome}">
+					<h:outputText value="#{usuario.nome}" />
+
+				</p:column>
+
+				<p:column headerText="Email">
+					<h:outputText value="#{usuario.email}" />
+
+				</p:column>
+
+				<p:column headerText="Telefone">
+					<h:outputText value="#{usuario.telefone.tipo}" />
+
+				</p:column>
+
+				<p:column headerText="Numero">
+
+					<h:outputText value="#{usuario.telefone.ddd}" />
+					<h:outputText value=" - " />
+					<h:outputText value="#{usuario.telefone.numero}" />
+
+				</p:column>
+
+				<p:column headerText="Opções">
+
+					<p:commandButton icon="ui-icon-trash"
+						actionListener="#{usuarioBean.excluir}"
+						update=":Mensagem :formLista:tabela">
+
+						<p:confirm header="Confirmacao"
+							message="Deseja excluir o Usuario ?" icon="ui-icon-alert" />
+						<f:attribute name="usuarioExcluir" value="#{usuario}" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{usuarioBean.editar}"
+						update=":Mensagem :formCadastro:painel"
+						oncomplete="PF('dlgUsuario').show();">
+
+						<f:attribute name="usuarioEditar" value="#{usuario}" />
+					</p:commandButton>
+
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+		</p:panel>
+	</h:form>
+
+	<p:dialog header="Cadastro - Usuario" widgetVar="dlgUsuario"
+		draggable="false" resizable="false" modal="true" closable="false">
+		<h:form id="formCadastro">
+			<h:panelGrid id="painel" columns="2">
+
+				<p:outputLabel value="Nome: " />
+				<p:inputText maxlength="100" size="30"
+					value="#{usuarioBean.usuario.nome}" required="true"
+					requiredMessage="Este campo 'Nome' é obrigatorio" />
+
+				<p:outputLabel value="Email: " />
+				<p:inputText maxlength="100" size="30"
+					value="#{usuarioBean.usuario.email}" required="true"
+					requiredMessage="Este campo 'Email' é obrigatorio" />
+
+				<p:outputLabel value="Senha: " />
+				<p:password maxlength="20" size="20"
+					value="#{usuarioBean.usuario.senha}" required="true"
+					requiredMessage="Este campo 'Senha' é obrigatorio" />
+
+
+				<p:outputLabel value="DDD: " />
+				<p:inputText maxlength="2" size="5"
+					value="#{usuarioBean.usuario.telefone.ddd}" required="true"
+					requiredMessage="Este campo 'DDD' é obrigatorio"
+					converterMessage="O valor informado no Campo 'DDD' é invalido" />
+
+				<p:outputLabel value="Numero: " />
+				<p:inputMask mask="99999-9999" size="10"
+					value="#{usuarioBean.usuario.telefone.numero}" required="true"
+					requiredMessage="Este campo 'Numero' é obrigatorio" />
+
+				<p:outputLabel value="Tipo: " />
+				<p:inputText maxlength="10" size="20"
+					value="#{usuarioBean.usuario.telefone.tipo}" required="true"
+					requiredMessage="Este campo 'Tipo' é obrigatorio" />
+
+			</h:panelGrid>
+
+			<h:panelGrid columns="2">
+
+				<p:commandButton value="Salvar"
+					actionListener="#{usuarioBean.salvar}"
+					update=":Mensagem :formCadastro:painel :formLista:tabela" />
+
+				<p:commandButton value="Fechar"
+					oncomplete="PF('dlgUsuario').hide();" />
+
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>

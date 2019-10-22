@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Cadastra</title>
+</h:head>
+<h:body>
+	<p:growl id="Mensagem" />
+
+	<p:dialog header="Cadastro - Usuario" widgetVar="dlgUsuario" 
+		visible="true" draggable="false" resizable="false" modal="true"
+		closable="false">
+		<h:form id="formCadastro">
+			<h:panelGrid id="painel" columns="2">
+
+				<p:outputLabel value="Nome: " />
+				<p:inputText maxlength="100" size="30"
+					value="#{cadastroBean.usuario.nome}" required="true"
+					requiredMessage="Este campo 'Nome' é obrigatorio" />
+
+				<p:outputLabel value="Email: " />
+				<p:inputText maxlength="100" size="30"
+					value="#{cadastroBean.usuario.email}" required="true"
+					requiredMessage="Este campo 'Email' é obrigatorio" />
+
+				<p:outputLabel value="Senha: " />
+				<p:password maxlength="20" size="20"
+					value="#{cadastroBean.usuario.senha}" required="true"
+					requiredMessage="Este campo 'Senha' é obrigatorio" />
+
+
+				<p:outputLabel value="DDD: " />
+				<p:inputText maxlength="2" size="5"
+					value="#{cadastroBean.usuario.telefone.ddd}" required="true"
+					requiredMessage="Este campo 'DDD' é obrigatorio"
+					converterMessage="O valor informado no Campo 'DDD' é invalido" />
+
+				<p:outputLabel value="Numero: " />
+				<p:inputMask mask="99999-9999" size="10"
+					value="#{cadastroBean.usuario.telefone.numero}" required="true"
+					requiredMessage="Este campo 'Numero' é obrigatorio" />
+
+				<p:outputLabel value="Tipo: " />
+				<p:inputText maxlength="10" size="20"
+					value="#{cadastroBean.usuario.telefone.tipo}" required="true"
+					requiredMessage="Este campo 'Tipo' é obrigatorio" />
+
+			</h:panelGrid>
+
+			<h:panelGrid columns="1">
+
+				<p:commandButton value="Salvar"
+					action="#{cadastroBean.salvar}"
+					update=":Mensagem"/>
+
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>
